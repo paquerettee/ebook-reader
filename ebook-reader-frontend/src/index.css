@@ -6,7 +6,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  /* color: rgba(255, 255, 255, 0.87); */
   /* background-color: #242424; */
 
   font-synthesis: none;
@@ -33,16 +33,6 @@ h1 {
   display: inline-block;
   padding: 10px 20px;
   background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.custom-upload {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
   cursor: pointer;
   border-radius: 5px;
   font-weight: bold;

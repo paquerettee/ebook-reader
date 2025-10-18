@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 from gtts import gTTS
 import os
 from flask_cors import CORS
+from pathlib import Path
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
@@ -19,6 +20,16 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'epub'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/ebooks', methods=['GET'])
+def list_ebooks():
+    directory = Path(app.config['UPLOAD_FOLDER'])
+    files = [f.name for f in directory.iterdir() if f.is_file()]
+    print(files)
+    if not files:
+        return jsonify({'error': 'No files found'})
+    return jsonify({'message': 'Files found', 'files': files}), 200
+    
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -39,8 +50,11 @@ def upload_file():
 
 @app.route('/generate-audio', methods=['POST'])
 def generate_audio():
+    print("backend, generate-audio")
     data = request.get_json()
+    print(data)
     filename = data.get('filename')
+    print(filename)
 
     if not filename:
         return jsonify({'error': 'Filename is required'}), 400
@@ -63,7 +77,8 @@ def generate_audio():
     except Exception as e:
         return jsonify({'error': f'TTS failed: {str(e)}'}), 500
 
-    return send_file(audio_path, as_attachment=True)
+    return jsonify({'success': True, 'audio_file': audio_filename}), 200
+    # return send_file(audio_path, as_attachment=True)
 
 
 @app.route('/')
