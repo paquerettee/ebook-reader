@@ -24,7 +24,7 @@ export function EbookList() {
   }, []);
 
   return (
-    <ul className="ebook-list">
+    <ul className="ebook-list flex flex-col justify-center gap-1">
       {ebooks.map((ebook, index) => (
         // fixme!!! index not a good key for dynamic arrays
         <li key={index}>

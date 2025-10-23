@@ -7,10 +7,10 @@ export function FileUploadHandler() {
       console.log("No file selected");
       return;
     }
-    sendFile(file);
+    postFile(file);
   };
 
-  const sendFile = (file) => {
+  const postFile = (file) => {
     let formData = new FormData();
     formData.append("file", file);
     fetch(`${BACKEND_URL}upload`, {
@@ -28,36 +28,6 @@ export function FileUploadHandler() {
         Upload File
       </label>
       <input type="file" id="fileUpload" style={{ display: "none" }} onChange={uploadFile} />
-    </div>
-  );
-}
-
-export function FileAudioHandler({ filename }) {
-  const generateAudio = () => {
-    fetch(`${BACKEND_URL}generate-audio`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ filename }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Server responded with ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => console.log("Audio generated successful:", data))
-      .catch((err) => console.error("Audio generation error:", err));
-  };
-
-  // const downloadAudio = () => {};
-
-  return (
-    <div>
-      <button className="text-black bg-blue-500" onClick={generateAudio}>
-        Generate Audio
-      </button>
     </div>
   );
 }
