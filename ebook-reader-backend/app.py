@@ -59,29 +59,35 @@ def generate_audio():
     if not filename:
         return jsonify({'error': 'Filename is required'}), 400
 
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(filename))
-    if not os.path.exists(filepath):
-        return jsonify({'error': 'File not found'}), 404
+    # check if audio file already exists
+    safe_filename = secure_filename(filename)
+    audio_filename = safe_filename.rsplit('.', 1)[0] + '.mp3'
+    audio_path = os.path.join(app.config['AUDIO_FOLDER'], audio_filename)
 
-    with open(filepath, 'r', encoding='utf-8') as f:
-        text = f.read().strip()
+    if not os.path.exists(audio_path):
+        # make an audio
+        print("making audio")
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], safe_filename)
+        if not os.path.exists(filepath):
+            return jsonify({'error': 'File not found'}), 404
 
-    if not text:
-        return jsonify({'error': 'File is empty or unreadable'}), 400
+        with open(filepath, 'r', encoding='utf-8') as f:
+           text = f.read().strip()
 
-    try:
-        tts = gTTS(text)
-        audio_filename = filename.rsplit('.', 1)[0] + '.mp3'
-        audio_path = os.path.join(app.config['AUDIO_FOLDER'], audio_filename)
-        tts.save(audio_path)
-    except Exception as e:
-        return jsonify({'error': f'TTS failed: {str(e)}'}), 500
+        if not text:
+            return jsonify({'error': 'File is empty or unreadable'}), 400
+
+        try:
+            tts = gTTS(text)
+            tts.save(audio_path)
+        except Exception as e:
+            return jsonify({'error': f'TTS failed: {str(e)}'}), 500
 
     return jsonify({'success': True, 'audio_file': audio_filename}), 200
-    # return send_file(audio_path, as_attachment=True)
 
 @app.route('/get-audio', methods=["POST"])
 def serve_audio():
+    print("backend, get-audio")
     data = request.get_json()
     filename = data.get('filename')
     print("serve_audio", filename)
