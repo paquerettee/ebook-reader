@@ -1,9 +1,10 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
 from gtts import gTTS
 import os
 from flask_cors import CORS
 from pathlib import Path
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
@@ -14,7 +15,6 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(AUDIO_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['AUDIO_FOLDER'] = AUDIO_FOLDER
-
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'epub'}
 
@@ -79,6 +79,13 @@ def generate_audio():
 
     return jsonify({'success': True, 'audio_file': audio_filename}), 200
     # return send_file(audio_path, as_attachment=True)
+
+@app.route('/get-audio', methods=["POST"])
+def serve_audio():
+    data = request.get_json()
+    filename = data.get('filename')
+    print("serve_audio", filename)
+    return send_from_directory('audio', filename, mimetype='audio/mpeg')
 
 
 @app.route('/')
