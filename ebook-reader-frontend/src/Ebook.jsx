@@ -1,5 +1,6 @@
 import { BACKEND_URL } from "./config";
 import { AudioButton } from "./ReusableComponents";
+import { saveAudioBlob, loadAudioBlob } from "./indexedDBHandler.js";
 
 export function Ebook({ data }) {
   console.log("Ebook: ", data);
@@ -44,15 +45,8 @@ export function Ebook({ data }) {
       }
       // streaming
       const blob = await response.blob();
+      await saveAudioBlob(blob, filename); // save for future use
       const audioUrl = URL.createObjectURL(blob);
-      // downloading
-      const link = document.createElement("a");
-      link.href = audioUrl;
-      link.download = filename;
-      document.body.appendChild(link); // Required for Firefox
-      link.click();
-      document.body.removeChild(link);
-      // return object for immediate playback
       return audioUrl;
     } catch (err) {
       console.error("Fetching file error:", err);
@@ -61,19 +55,24 @@ export function Ebook({ data }) {
   };
 
   const playAudio = async () => {
-    console.log("playAudio");
-    // check if local copy exists, if no - generate and download audio file
-    // if (!localStorage.getItem(filename)) {
-    //   // fetch and download
-    //   localStorage.setItem(filename, "true");
-    // }
-
-    const data = await generateAudio();
-    if (data) {
-      const audioUrl = await getFile(data.audio_file);
+    console.log("playAudio: ", ebookFilename);
+    let audioUrl;
+    try {
+      let audioFilename = ebookFilename.replace(/\.[^/.]+$/, ".mp3");
+      audioUrl = await loadAudioBlob(audioFilename);
+    } catch (err) {
+      console.log("Audio not found in indexedDB: ", err);
+      const data = await generateAudio();
+      if (data) {
+        console.log("aufio file: ", data.audio_file);
+        audioUrl = await getFile(data.audio_file);
+      }
+    } finally {
       if (audioUrl) {
         const audio = new Audio(audioUrl);
         audio.play();
+      } else {
+        console.warn("Audio could not be loaded or generated.");
       }
     }
   };
