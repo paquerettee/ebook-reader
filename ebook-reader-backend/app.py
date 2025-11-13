@@ -25,9 +25,9 @@ def allowed_file(filename):
 def list_ebooks():
     directory = Path(app.config['UPLOAD_FOLDER'])
     files = [f.name for f in directory.iterdir() if f.is_file()]
-    print(files)
+#    print(f"files: {files}")
     if not files:
-        return jsonify({'error': 'No files found'})
+        return jsonify({'error': 'No files found', 'files':[]})
     return jsonify({'message': 'Files found', 'files': files}), 200
     
 

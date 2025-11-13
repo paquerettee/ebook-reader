@@ -1,14 +1,14 @@
-import { BACKEND_URL } from "./config";
-import { AudioButton } from "./ReusableComponents";
-import { saveAudioBlob, loadAudioBlob } from "./indexedDBHandler.js";
+import { BACKEND_URL } from "../config.js";
+import { AudioButton } from "./ReusableComponents.jsx";
+import { saveFile, loadFile } from "../utils/indexedDBHandler.js";
+import { useEffect } from "react";
 
-export function Ebook({ data }) {
-  console.log("Ebook: ", data);
+export function Ebook({ data, setOpenReader, setEbookFilename }) {
   const ebookFilename = data;
 
-  const openBook = () => {
-    console.log("openBook");
-  };
+  useEffect(() => {
+    setEbookFilename(ebookFilename);
+  }, []);
 
   const generateAudio = async () => {
     console.log("generateAudio");
@@ -43,10 +43,11 @@ export function Ebook({ data }) {
       if (!response.ok) {
         throw new Error(`Server responded with ${response.status}`);
       }
-      // streaming
-      const blob = await response.blob();
-      await saveAudioBlob(blob, filename); // save for future use
-      const audioUrl = URL.createObjectURL(blob);
+
+      const audioBlob = await response.blob();
+      await saveFile(filename, audioBlob);
+
+      const audioUrl = URL.createObjectURL(audioBlob);
       return audioUrl;
     } catch (err) {
       console.error("Fetching file error:", err);
@@ -59,7 +60,8 @@ export function Ebook({ data }) {
     let audioUrl;
     try {
       let audioFilename = ebookFilename.replace(/\.[^/.]+$/, ".mp3");
-      audioUrl = await loadAudioBlob(audioFilename);
+      // audioUrl = await loadAudioBlob(audioFilename);
+      audioUrl = await loadFile(audioFilename);
     } catch (err) {
       console.log("Audio not found in indexedDB: ", err);
       const data = await generateAudio();
@@ -77,11 +79,23 @@ export function Ebook({ data }) {
     }
   };
 
+  const deleteFiles = () => {
+    console.log("deleteFiles");
+  };
+
   return (
     <div className="flex gap-3">
       <p className="text-black">{data}</p>
-      <AudioButton onClick={openBook}>Read</AudioButton>
+      <AudioButton
+        onClick={() => {
+          setEbookFilename(ebookFilename);
+          setOpenReader(true);
+        }}
+      >
+        Read
+      </AudioButton>
       <AudioButton onClick={playAudio}>Play</AudioButton>
+      <AudioButton onClick={deleteFiles}>Delete</AudioButton>
     </div>
   );
 }
