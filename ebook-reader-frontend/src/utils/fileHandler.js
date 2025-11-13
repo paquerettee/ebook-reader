@@ -44,3 +44,26 @@ export function downloadFiles() {
       return [];
     });
 }
+
+export async function getFile(filename) {
+  console.log("getFile");
+  try {
+    const response = await fetch(`${BACKEND_URL}/get-audio`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ filename }),
+    });
+    if (!response.ok) {
+      throw new Error(`Server responded with ${response.status}`);
+    }
+
+    const audioBlob = await response.blob();
+    await saveFile(filename, audioBlob);
+
+    const audioUrl = URL.createObjectURL(audioBlob);
+    return audioUrl;
+  } catch (err) {
+    console.error("Fetching file error:", err);
+    return null;
+  }
+}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Ebook } from "./Ebook";
 import { FileUploadHandler } from "./FileUploadComponent";
-import { downloadFiles } from "../utils/FileHandler";
+import { downloadFiles } from "../utils/fileHandler";
 
 export function EbookList({ setOpenReader, setEbookFilename }) {
   const [ebooks, setEbooks] = useState([]);

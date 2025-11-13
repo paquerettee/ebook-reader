@@ -1,4 +1,4 @@
-import { uploadFile } from "../utils/FileHandler";
+import { uploadFile } from "../utils/fileHandler";
 
 export function FileUploadHandler({ onUploadComplete }) {
   const handleChange = (event) => {
