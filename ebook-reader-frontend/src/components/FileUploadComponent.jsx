@@ -1,11 +1,11 @@
-import { uploadFile } from "../utils/fileHandler";
+import { uploadAndSaveFile } from "../utils/fileHandler";
 
 export function FileUploadHandler({ onUploadComplete }) {
   const handleChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    uploadFile(file)
+    uploadAndSaveFile(file)
       .then(() => {
         if (onUploadComplete) onUploadComplete();
       })
