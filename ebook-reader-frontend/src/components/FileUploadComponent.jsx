@@ -13,7 +13,7 @@ export function FileUploadHandler({ onUploadComplete }) {
   };
 
   return (
-    <div>
+    <div className="mt-6 py-4">
       <label htmlFor="fileUpload" className="custom-upload">
         Upload File
       </label>

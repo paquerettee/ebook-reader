@@ -16,8 +16,9 @@ export function EbookList({ setOpenReader, setEbookFilename }) {
   }, []);
 
   return (
-    <>
-      <ul className="ebook-list flex flex-col justify-center gap-1">
+    <section className="w-full max-w-sm mx-auto">
+      <ul className="ebook-list flex flex-col items-between gap-2">
+        {/* <div class="w-full max-w-sm"> */}
         {ebooks.map((ebook, index) => (
           // fixme!!! index not a good key for dynamic arrays
           <li key={index}>
@@ -31,6 +32,6 @@ export function EbookList({ setOpenReader, setEbookFilename }) {
         ))}
       </ul>
       <FileUploadHandler onUploadComplete={refreshFiles}></FileUploadHandler>
-    </>
+    </section>
   );
 }

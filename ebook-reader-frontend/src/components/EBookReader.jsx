@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { EbookService } from "../services/ebookService";
-import { AudioButton } from "./ReusableComponents";
+import { EbookButton } from "./ReusableComponents";
 
 export function EbookReader({ ebookFilename, setOpenReader }) {
   const [textContent, setTextContent] = useState("");
@@ -24,7 +24,7 @@ export function EbookReader({ ebookFilename, setOpenReader }) {
           <pre>{textContent}</pre>
         </div>
       </div>
-      <AudioButton onClick={() => setOpenReader(false)}>Back</AudioButton>
+      <EbookButton onClick={() => setOpenReader(false)}>Back</EbookButton>
     </>
   );
 }

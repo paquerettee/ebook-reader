@@ -1,4 +1,4 @@
-import { AudioButton } from "./ReusableComponents.jsx";
+import { EbookButton } from "./ReusableComponents.jsx";
 import { EbookService } from "../services/ebookService";
 import { AudioService } from "../services/audioService";
 import { useEffect } from "react";
@@ -23,18 +23,20 @@ export function Ebook({ data, setOpenReader, setEbookFilename, refreshFiles }) {
   };
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-4 items-baseline justify-between w-110">
       <p className="text-black">{data}</p>
-      <AudioButton
-        onClick={() => {
-          setEbookFilename(ebookFilename);
-          setOpenReader(true);
-        }}
-      >
-        Read
-      </AudioButton>
-      <AudioButton onClick={handlePlayAudio}>Play</AudioButton>
-      <AudioButton onClick={handleDeleteFiles}>Delete</AudioButton>
+      <div className="buttons flex gap-2 ">
+        <EbookButton
+          onClick={() => {
+            setEbookFilename(ebookFilename);
+            setOpenReader(true);
+          }}
+        >
+          Read
+        </EbookButton>
+        <EbookButton onClick={handlePlayAudio}>Play</EbookButton>
+        <EbookButton onClick={handleDeleteFiles}>Delete</EbookButton>
+      </div>
     </div>
   );
 }
