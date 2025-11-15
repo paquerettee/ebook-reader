@@ -1,19 +1,17 @@
 import { useState, useEffect } from "react";
 import { Ebook } from "./Ebook";
 import { FileUploadHandler } from "./FileUploadComponent";
-import { getEbooks } from "../utils/fileHandler";
+import { EbookService } from "../services/ebookService";
 
 export function EbookList({ setOpenReader, setEbookFilename }) {
   const [ebooks, setEbooks] = useState([]);
 
   const refreshFiles = () => {
-    getEbooks().then((files) => {
-      console.log(files);
+    EbookService.getEbooksList().then((files) => {
       setEbooks(files);
     });
   };
   useEffect(() => {
-    console.log("frontend, listEbooks");
     refreshFiles();
   }, []);
 
@@ -23,7 +21,12 @@ export function EbookList({ setOpenReader, setEbookFilename }) {
         {ebooks.map((ebook, index) => (
           // fixme!!! index not a good key for dynamic arrays
           <li key={index}>
-            <Ebook data={ebook} setOpenReader={setOpenReader} setEbookFilename={setEbookFilename} />
+            <Ebook
+              data={ebook}
+              setOpenReader={setOpenReader}
+              setEbookFilename={setEbookFilename}
+              refreshFiles={refreshFiles}
+            />
           </li>
         ))}
       </ul>

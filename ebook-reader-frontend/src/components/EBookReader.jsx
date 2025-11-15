@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { loadFile } from "../utils/indexedDBHandler";
+import { EbookService } from "../services/ebookService";
 import { AudioButton } from "./ReusableComponents";
 
 export function EbookReader({ ebookFilename, setOpenReader }) {
@@ -8,10 +8,7 @@ export function EbookReader({ ebookFilename, setOpenReader }) {
   useEffect(() => {
     console.log("Reader: ", ebookFilename);
     async function fetchEbook() {
-      console.log("loading file: ", ebookFilename);
-      // FIXME - file not found
-      const ebookText = await loadFile(ebookFilename, true);
-      console.log(ebookText);
+      const ebookText = EbookService.getEbook(ebookFilename);
       setTextContent(ebookText);
     }
     fetchEbook();

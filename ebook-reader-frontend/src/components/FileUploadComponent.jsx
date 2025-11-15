@@ -1,11 +1,11 @@
-import { uploadAndSaveFile } from "../utils/fileHandler";
+import { EbookService } from "../services/ebookService";
 
 export function FileUploadHandler({ onUploadComplete }) {
   const handleChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    uploadAndSaveFile(file)
+    EbookService.saveEbook(file)
       .then(() => {
         if (onUploadComplete) onUploadComplete();
       })

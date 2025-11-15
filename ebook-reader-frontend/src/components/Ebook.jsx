@@ -1,8 +1,9 @@
 import { AudioButton } from "./ReusableComponents.jsx";
-import { playAudio } from "../utils/audioHandler.js";
+import { EbookService } from "../services/ebookService";
+import { AudioService } from "../services/audioService";
 import { useEffect } from "react";
 
-export function Ebook({ data, setOpenReader, setEbookFilename }) {
+export function Ebook({ data, setOpenReader, setEbookFilename, refreshFiles }) {
   const ebookFilename = data;
 
   useEffect(() => {
@@ -10,11 +11,15 @@ export function Ebook({ data, setOpenReader, setEbookFilename }) {
   }, []);
 
   const handlePlayAudio = () => {
-    playAudio(ebookFilename);
+    AudioService.playAudio(ebookFilename);
   };
 
-  const handleDeleteFiles = () => {
-    console.log("deleteFiles");
+  const handleDeleteFiles = async () => {
+    let audiobookFilename = ebookFilename.replace(/\.[^/.]+$/, ".mp3");
+    await AudioService.deleteAudiobook(audiobookFilename);
+    // TODO: if audio deleted successfully - delete ebook?
+    await EbookService.deleteEbook(ebookFilename);
+    refreshFiles();
   };
 
   return (
