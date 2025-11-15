@@ -50,12 +50,8 @@ def upload_file():
 
 @app.route('/generate-audio', methods=['POST'])
 def generate_audio():
-    print("backend, generate-audio")
     data = request.get_json()
-    print(data)
     filename = data.get('filename')
-    print(filename)
-
     if not filename:
         return jsonify({'error': 'Filename is required'}), 400
 
@@ -87,12 +83,49 @@ def generate_audio():
 
 @app.route('/get-audio', methods=["POST"])
 def serve_audio():
-    print("backend, get-audio")
     data = request.get_json()
     filename = data.get('filename')
-    print("serve_audio", filename)
+    if not filename:
+        return jsonify({'error': 'Filename is required'}), 400
     return send_from_directory('audio', filename, mimetype='audio/mpeg')
 
+@app.route('/get-ebook', methods=["POST"])
+def serve_ebook():
+    data = request.get_json()
+    filename = data.get('filename')
+    if not filename:
+        return jsonify({'error': 'Filename is required'}), 400
+    return send_from_directory('uploads', filename, mimetype='text/plain')
+
+@app.route('/delete-ebook', methods=["DELETE"])
+def delete_ebook():
+    data = request.get_json()
+    filename = data.get('filename')
+    if not filename:
+        return jsonify({'error': 'Filename is required'}), 400
+    # delete ebook if exists
+    safe_filename = secure_filename(filename)
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], safe_filename)
+    if os.path.exists(filepath):
+        os.remove(filepath)
+        return jsonify({'message': 'File deleted successfully', 'filename': safe_filename}), 200
+    else:
+        return jsonify({'error': 'File not found'}), 404
+
+@app.route('/delete-audio', methods=["DELETE"])
+def delete_audiobook():
+    data = request.get_json()
+    filename = data.get('filename')
+    if not filename:
+        return jsonify({'error': 'Filename is required'}), 400
+    # delete audiobook if exists
+    safe_filename = secure_filename(filename)
+    filepath = os.path.join(app.config['AUDIO_FOLDER'], safe_filename)
+    if os.path.exists(filepath):
+        os.remove(filepath)
+        return jsonify({'message': 'File deleted successfully', 'filename': safe_filename}), 200
+    else:
+       return jsonify({'message': 'Nothing to delete - file not found'}), 200
 
 @app.route('/')
 def home():
