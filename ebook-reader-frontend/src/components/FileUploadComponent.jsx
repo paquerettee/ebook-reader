@@ -13,7 +13,7 @@ export function FileUploadComponent({ onUploadComplete }) {
   };
 
   return (
-    <div className="mt-6 py-4 w-100">
+    <div className="mx-auto mt-6 py-4 w-100">
       <label htmlFor="fileUpload" className="btn-primary py-2">
         Upload File
       </label>

@@ -62,7 +62,6 @@ def generate_audio():
 
     if not os.path.exists(audio_path):
         # make an audio
-        print("making audio")
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], safe_filename)
         if not os.path.exists(filepath):
             return jsonify({'error': 'File not found'}), 404

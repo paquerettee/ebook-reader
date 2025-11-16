@@ -16,8 +16,8 @@ export function EbookList({ setOpenReader, setEbookFilename }) {
   }, []);
 
   return (
-    <section className="w-full max-w-sm mx-auto">
-      <ul className="ebook-list flex flex-col items-between gap-2 w-100">
+    <section className="w-full max-w-md mx-auto my-2">
+      <ul className="mx-auto ebook-list flex flex-col items-between gap-2 w-100">
         {/* <div class="w-full max-w-sm"> */}
         {ebooks.map((ebook, index) => (
           // fixme!!! index not a good key for dynamic arrays

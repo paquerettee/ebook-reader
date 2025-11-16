@@ -9,14 +9,14 @@ function App() {
   const [ebookFilename, setEbookFilename] = useState("");
 
   return !openReader ? (
-    <>
-      <h1 className="p-4 mb-4">
-        <span class="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent">
+    <div className="paper-frame">
+      <h1 className="p-3 mb-8 gradient-underline ">
+        <span className="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent">
           read4me
         </span>
       </h1>
       <EbookList setOpenReader={setOpenReader} setEbookFilename={setEbookFilename}></EbookList>
-    </>
+    </div>
   ) : (
     <EbookReader ebookFilename={ebookFilename} setOpenReader={setOpenReader}></EbookReader>
   );

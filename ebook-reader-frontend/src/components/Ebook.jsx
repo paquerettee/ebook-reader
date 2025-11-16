@@ -4,7 +4,7 @@ import { AudioService } from "../services/audioService";
 import { useEffect } from "react";
 
 export function Ebook({ data, setOpenReader, setEbookFilename, refreshFiles }) {
-  const ebookFilename = data.replace(/\.[^./]+$/, "");
+  const ebookFilename = data; // data.replace(/\.[^./]+$/, "");
 
   useEffect(() => {
     setEbookFilename(ebookFilename);

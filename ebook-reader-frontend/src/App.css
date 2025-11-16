@@ -6,6 +6,20 @@
 }
 
 @layer components {
+  .paper-frame {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    background: linear-gradient(white, #fdfdfd); /* subtle gradient for paper feel */
+    border: 1px solid #e0e0e0; /* light gray border */
+    border-radius: 2px; /* sharper corners */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05); /* soft layered shadow */
+    min-height: 90vh;
+    position: relative;
+  }
+}
+
+@layer components {
   .btn-primary {
     width: 6rem; /* w-24 */
     padding-left: 1.5rem; /* px-6 */
@@ -42,6 +56,25 @@
       box-shadow: 0 0 0 2px var(--color-purple-500); /* focus:ring-2 */
       margin: 2px; /* focus:ring-offset-2 (simulated) */
     }
+  }
+}
+
+@layer components {
+  .gradient-underline {
+    position: relative;
+    display: inline-block;
+  }
+
+  .gradient-underline::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200%;
+    height: 3px;
+    background-image: linear-gradient(to right, var(--color-indigo-500), var(--color-purple-600));
+    border-radius: 2px;
   }
 }
 
