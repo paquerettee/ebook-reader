@@ -4,3 +4,45 @@
   padding: 2rem;
   text-align: center;
 }
+
+@layer components {
+  .btn-primary {
+    width: 6rem; /* w-24 */
+    padding-left: 1.5rem; /* px-6 */
+    padding-right: 1.5rem;
+    padding-top: 0.25rem; /* py-1 */
+    padding-bottom: 0.25rem;
+
+    background-image: linear-gradient(
+      to right,
+      var(--color-indigo-500),
+      var(--color-purple-600)
+    ); /* bg-gradient-to-r */
+    color: var(--color-white); /* text-white */
+    font-weight: var(--font-weight-semibold); /* font-semibold */
+    border-radius: var(--radius-lg); /* rounded-lg */
+    box-shadow: var(--shadow-md); /* shadow-md */
+
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+
+    &:hover {
+      @media (hover: hover) {
+        background-image: linear-gradient(
+          to right,
+          var(--color-indigo-600),
+          var(--color-purple-700)
+        ); /* hover gradient */
+      }
+    }
+
+    &:focus {
+      outline: none; /* focus:outline-none */
+      box-shadow: 0 0 0 2px var(--color-purple-500); /* focus:ring-2 */
+      margin: 2px; /* focus:ring-offset-2 (simulated) */
+    }
+  }
+}
+
+/* w-24 px-6 py-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:from-indigo-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-300 ease-in-out */

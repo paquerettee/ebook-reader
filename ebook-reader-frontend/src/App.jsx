@@ -10,7 +10,11 @@ function App() {
 
   return !openReader ? (
     <>
-      <h1 className="p-4 mb-4 text-blue-600">read4me</h1>
+      <h1 className="p-4 mb-4">
+        <span class="bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent">
+          read4me
+        </span>
+      </h1>
       <EbookList setOpenReader={setOpenReader} setEbookFilename={setEbookFilename}></EbookList>
     </>
   ) : (
