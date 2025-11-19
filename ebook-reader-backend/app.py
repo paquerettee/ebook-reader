@@ -7,8 +7,9 @@ from pathlib import Path
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://kathy-ebook-reader.vercel.app/"}})
-# CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+CORS(app, resources={r"/*": {
+    "origins":  ["http://localhost:5173", "https://kathy-ebook-reader.vercel.app"]
+    }})
 
 UPLOAD_FOLDER = 'uploads'
 AUDIO_FOLDER = 'audio'
