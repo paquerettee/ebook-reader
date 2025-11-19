@@ -4,7 +4,7 @@ import { AudioService } from "../services/audioService";
 import { useEffect } from "react";
 
 export function Ebook({ data, setOpenReader, setEbookFilename, refreshFiles }) {
-  const ebookFilename = data; // data.replace(/\.[^./]+$/, "");
+  const ebookFilename = data;
 
   useEffect(() => {
     setEbookFilename(ebookFilename);
@@ -24,7 +24,7 @@ export function Ebook({ data, setOpenReader, setEbookFilename, refreshFiles }) {
 
   return (
     <div className="flex gap-4 items-baseline justify-between ">
-      <p className="text-gray-700">{ebookFilename}</p>
+      <p className="text-gray-700">{ebookFilename.replace(/\.[^./]+$/, "")}</p>
       <div className="buttons flex gap-2 ">
         <EbookButton
           onClick={() => {
